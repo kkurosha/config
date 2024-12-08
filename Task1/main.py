@@ -2,13 +2,15 @@ import tkinter as tk
 from tkinter import scrolledtext
 import tarfile
 import os
+from tkinter import simpledialog
+
 
 class Emulator:
     def __init__(self, root, username, tar_path):
         self.root = root
         self.username = username
         self.tar_path = tar_path
-        self.current_dir = ''  # Начальная директория (пустая для "корневой")
+        self.current_dir = ''
         self.file_system = self.load_tar()
 
         self.root.title("Shell Emulator")
@@ -18,6 +20,12 @@ class Emulator:
         self.text_area.focus()
 
         self.prompt()
+
+        # Запрос у пользователя любого ввода для запуска скрипта
+        start_script = simpledialog.askstring("Выберите", "Нажмите любую клавишу для запуска скрипта или оставьте поле пустым для эмулятора:")
+        if start_script:
+            self.execute_commands_from_file('start_script.txt') 
+
 
     def load_tar(self):
         if not os.path.exists(self.tar_path):
@@ -97,15 +105,19 @@ class Emulator:
             self.text_area.insert(tk.END, "No files found\n")
 
     def change_directory(self, directory):
-        full_path = self.current_dir + directory
-        if directory == '..':
+        if directory == '/':
+            self.current_dir = ''
+            self.text_area.insert(tk.END, f"Changed directory to: {self.current_dir}\n")
+        elif directory == '..':
             self.current_dir = '/'.join(self.current_dir.split('/')[:-1]) + '/' if self.current_dir != '' else ''
             self.text_area.insert(tk.END, f"Changed directory to: {self.current_dir}\n")
-        elif full_path in self.file_system:
-            self.current_dir = full_path + '/'
-            self.text_area.insert(tk.END, f"Changed directory to: {self.current_dir}\n")
         else:
-            self.text_area.insert(tk.END, f"No such directory: {directory}\n")
+            full_path = self.current_dir + directory
+            if full_path in self.file_system:
+                self.current_dir = full_path + '/'
+                self.text_area.insert(tk.END, f"Changed directory to: {self.current_dir}\n")
+            else:
+                self.text_area.insert(tk.END, f"No such directory: {directory}\n")
 
     def remove_directory(self, directory):
         # Формируем полный путь к директории
@@ -145,9 +157,38 @@ class Emulator:
         else:
             self.text_area.insert(tk.END, f"No such file: {filename}\n")
 
+    def execute_commands_from_file(self, filename):
+        if not os.path.exists(filename):
+            self.text_area.insert(tk.END, f"File not found: {filename}\n")
+            return
+
+        with open(filename, 'r') as file:
+            for line in file:
+                command = line.strip()
+                if command:
+                    self.text_area.insert(tk.END, f"\nExecuting: {command}\n")
+                    input_text = command.strip()
+                    command_parts = input_text.split()
+                    self.execute_command_from_list(command_parts)
+
+    def execute_command_from_list(self, command_parts):
+        if command_parts:
+            cmd = command_parts[0]
+            if cmd == 'cd':
+                if len(command_parts) > 1:
+                    self.change_directory(command_parts[1])
+            elif cmd == 'wc':
+                if len(command_parts) > 1:
+                    self.word_count(command_parts[1])
+            elif cmd == 'ls':
+                self.list_files()
+            elif cmd == 'find':
+                if len(command_parts) > 1:
+                    self.find_file(command_parts[1])
+
 
 if __name__ == "__main__":
     root = tk.Tk()
     emulator = Emulator(root, "arina",
-                        "C:\\Users\\arina\\PycharmProjects\\configupr\\tar.tar")  # Убедитесь, что путь к tar файлу правильный
+                        "C:\\Users\\arina\\PycharmProjects\\configupr\\tar.tar") 
     root.mainloop()
