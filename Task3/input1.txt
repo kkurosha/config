@@ -1,0 +1,20 @@
+(comment
+Конфигурация для веб-сервера
+)
+const server_name = "MyWebServer"
+const max_connections = 200
+const timeout = $max_connections + 10
+server_port = 8080
+server_root = [[/var/www/html]]
+server_index = [[index.html]]
+error_log = [[/var/log/mywebserver/error.log]]
+access_log = [[/var/log/mywebserver/access.log]]
+const allowed_methods = { "GET", "POST", "PUT", "DELETE" }
+const connection_limit = 150
+const request_limit = 100
+const min_limit = min($max_connections, $connection_limit, $request_limit)
+
+
+
+
+

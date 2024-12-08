@@ -1,0 +1,11 @@
+(comment
+Конфигурация для базы данных
+)
+const db_name = "MyDatabase"
+const db_user = "admin"
+const db_password = "securepassword123"
+const db_host = "localhost"
+const db_port = 5432
+const max_connections = 100
+const min_connections = 5
+const total_connections = $max_connections + $min_connections
