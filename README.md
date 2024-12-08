@@ -26,7 +26,8 @@ python main.py
 
 Запуск скрипта start_script.txt.
 
-![image](https://github.com/user-attachments/assets/ba2eb566-d766-4bd9-baa2-028b410a31b6)
+![image](https://github.com/user-attachments/assets/c1154579-c7ef-4f96-b17b-faad4514dd26)
+
 
 
 **Результаты тестирования:**
@@ -35,5 +36,8 @@ python main.py
 ```
 python -m unittest <название_файла>
 ```
+
+Скриншот успешного выполнения тестов:
+
 ![image](https://github.com/user-attachments/assets/757099e7-7e4e-493c-a724-e3875b18355f)
 
