@@ -1,0 +1,5 @@
+ls
+cd tar/1
+find file1.txt
+wc file1.txt
+exit
