@@ -2,15 +2,13 @@ import tkinter as tk
 from tkinter import scrolledtext
 import tarfile
 import os
-from tkinter import simpledialog
-
 
 class Emulator:
-    def __init__(self, root, username, tar_path):
+    def __init__(self, root, username, tar_path, start_script=None):
         self.root = root
         self.username = username
         self.tar_path = tar_path
-        self.current_dir = ''
+        self.current_dir = ''  # Начальная директория (пустая для "корневой")
         self.file_system = self.load_tar()
 
         self.root.title("Shell Emulator")
@@ -21,11 +19,8 @@ class Emulator:
 
         self.prompt()
 
-        # Запрос у пользователя любого ввода для запуска скрипта
-        start_script = simpledialog.askstring("Выберите", "Нажмите любую клавишу для запуска скрипта или оставьте поле пустым для эмулятора:")
         if start_script:
-            self.execute_commands_from_file('start_script.txt') 
-
+            self.execute_commands_from_file('start_script.txt')
 
     def load_tar(self):
         if not os.path.exists(self.tar_path):
@@ -95,6 +90,7 @@ class Emulator:
             else:
                 self.text_area.insert(tk.END, f"Unknown command: {cmd}\n")
         self.prompt()
+
 
     def list_files(self):
         current_files = [f for f in self.file_system if f.startswith(self.current_dir)]
@@ -171,6 +167,7 @@ class Emulator:
                     command_parts = input_text.split()
                     self.execute_command_from_list(command_parts)
 
+
     def execute_command_from_list(self, command_parts):
         if command_parts:
             cmd = command_parts[0]
@@ -190,5 +187,5 @@ class Emulator:
 if __name__ == "__main__":
     root = tk.Tk()
     emulator = Emulator(root, "arina",
-                        "C:\\Users\\arina\\PycharmProjects\\configupr\\tar.tar") 
+                        "C:\\Users\\arina\\PycharmProjects\\configupr\\tar.tar", "start_script.txt")  
     root.mainloop()
