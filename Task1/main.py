@@ -147,9 +147,11 @@ class Emulator:
             self.text_area.insert(tk.END, f"No such file: {filename}\n")
 
     def find_file(self, filename):
-        full_path = self.current_dir + filename
-        if filename in self.file_system or full_path in self.file_system:
-            self.text_area.insert(tk.END, f"Found file: {filename}\n")
+        full_path = self.current_dir + filename # текущая директория + имя файла
+        if filename in self.file_system: # Проверяет, есть ли просто имя файла в файловой системе
+            self.text_area.insert(tk.END, f"Found file: {self.current_dir}{filename}\n")
+        elif full_path in self.file_system: # Если имя файла не найдено, проверяет наличие полного пути к файлу
+            self.text_area.insert(tk.END, f"Found file: {full_path}\n")
         else:
             self.text_area.insert(tk.END, f"No such file: {filename}\n")
 
@@ -187,5 +189,5 @@ class Emulator:
 if __name__ == "__main__":
     root = tk.Tk()
     emulator = Emulator(root, "arina",
-                        "C:\\Users\\arina\\PycharmProjects\\configupr\\tar.tar", "start_script.txt")  
+                        "C:\\Users\\arina\\PycharmProjects\\configupr\\tar.tar", "start_script.txt")
     root.mainloop()
