@@ -99,7 +99,7 @@ python main.py config.yaml
 
 После запуска скрипта было создан граф зависимостей в формате PNG:
 
-![image](https://github.com/user-attachments/assets/5c9f582f-d54c-4ebd-80d3-6b7b4c491761)
+![image](https://github.com/user-attachments/assets/85e36f53-b8ea-4825-9cbb-2e5dd6081a9d)
 
 
 **Результаты тестирования:**
