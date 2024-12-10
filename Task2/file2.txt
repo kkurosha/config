@@ -1,0 +1,2 @@
+This is file 2
+Changes from new branch
