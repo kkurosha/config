@@ -26,11 +26,11 @@ class DependencyVisualizer:
 
     def get_commit_dependencies(self):
         """
-        Получает коммиты и их зависимости (родительские коммиты) из git-репозитория.
+        Получает коммиты и их зависимости (родительские коммиты) из всех веток git-репозитория.
         """
         try:
             result = subprocess.run(
-                ["git", "-C", self.repo_path, "log", "--pretty=format:%H %P"],
+                ["git", "-C", self.repo_path, "log", "--all", "--pretty=format:%H %P"],
                 capture_output=True,
                 text=True,
                 check=True
